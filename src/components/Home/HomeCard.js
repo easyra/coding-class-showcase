@@ -1,15 +1,24 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-class HomeCard extends Component{
-  render(){
-    const {title, period, img, link } = this.props
-    return(
-    <div>
-      <h2>{title}</h2>
-      <h4>{period}</h4>
-      <img src={img} onClick={link}/>
-    </div>)
+class HomeCard extends Component {
+  render() {
+    const { title, period, img, link } = this.props;
+    return (
+      <div className='col s12 m4'>
+        <div className='card'>
+          <div className='card-image'>
+            <img src={img} />
+            <span className='card-title'>
+              {title} Per.{period}
+            </span>
+          </div>
+          <div className='card-content'>
+            <p>lorem15</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
-export default HomeCard
+export default HomeCard;
