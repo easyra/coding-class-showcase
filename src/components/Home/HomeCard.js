@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 class HomeCard extends Component{
   render(){
-    const {title, period, img, link } = props
+    const {title, period, img, link } = this.props
     return(
     <div>
       <h2>{title}</h2>
