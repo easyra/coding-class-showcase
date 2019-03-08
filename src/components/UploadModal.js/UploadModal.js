@@ -44,6 +44,16 @@ class UploadModal extends Component {
           img
         };
         await databaseRef.child(`kimsclass/${id}`).set(newProject);
+        const model = document.querySelector('#modal1');
+        const instance = M.Modal.getInstance(model);
+        this.setState({
+          fullNameInput: '',
+          periodInput: '',
+          linkInput: '',
+          imgInput: '',
+          imgFile: null
+        });
+        instance.close();
       })
       .catch(err => console.log(err));
   };

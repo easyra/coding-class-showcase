@@ -7,7 +7,7 @@ class HomeCard extends Component {
       <div className='col s12 m3'>
         <div className='card'>
           <div className='card-image'>
-            <img src={img} />
+            <img className='responsive-img' src={img} />
             <span className='card-title'>
               {title} Per.{period}
             </span>
