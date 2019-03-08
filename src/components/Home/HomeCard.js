@@ -4,7 +4,7 @@ class HomeCard extends Component {
   render() {
     const { title, period, img, link } = this.props;
     return (
-      <div className='col s12 m4'>
+      <div className='col s12 m3'>
         <div className='card'>
           <div className='card-image'>
             <img src={img} />

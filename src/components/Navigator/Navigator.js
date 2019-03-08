@@ -1,12 +1,30 @@
 import React from 'react';
+import M from 'materialize-css';
+
+const openModal = () => {
+  const model = document.querySelector('#modal1');
+  const instance = M.Modal.getInstance(model);
+  instance.isOpen ? instance.close() : instance.open();
+};
 
 const Navigator = props => {
   return (
-    <nav>
-      <div className='nav-wrapper'>
-        <a className='brand-logo right'>Mr Kim's Class</a>
-      </div>
-    </nav>
+    <>
+      <nav className='blue darken-3'>
+        <div className='nav-wrapper container'>
+          <a href='/' className='brand-logo '>
+            Mr Kim's Class
+          </a>
+          <ul className='right '>
+            <li>
+              <a href='#modal1' onClick={openModal}>
+                <i className='left material-icons'>file_upload</i>Upload
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </>
   );
 };
 
