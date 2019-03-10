@@ -76,6 +76,5 @@ table {
   height: 51%;
 }
 .responsive-img{
-  height: 200px !important;
   overflow-y: hidden !important
 }
