@@ -13,6 +13,9 @@ class HomeContainer extends Component {
       activePeriod: 0
     };
   }
+  changeProjectState = projects => {
+    this.setState({ projects, backupProjects: projects });
+  };
   changePeriod = n => {
     if (n === 0) {
       //Resets list
@@ -27,7 +30,6 @@ class HomeContainer extends Component {
   addProject = newProject => {
     const projects = this.state.projects.slice();
     projects.push(newProject);
-    console.log(projects);
     this.setState({ projects });
   };
   render() {
@@ -36,6 +38,7 @@ class HomeContainer extends Component {
       <div>
         <Navigator />
         <SelectBar
+          changeProjectState={this.changeProjectState}
           activePeriod={activePeriod}
           changePeriod={this.changePeriod}
         />
@@ -45,8 +48,12 @@ class HomeContainer extends Component {
     );
   }
   componentDidMount() {
-    databaseRef.child('kimsclass').on('value', snapshot => {
-      const projects = Object.values(snapshot.val());
+    const period = this.state.activePeriod;
+    const periodString = period === 0 ? 'all' : `period${period}`;
+    const project = 'project1';
+    const rootPath = `kimsclass-${project}-${periodString}`;
+    databaseRef.child(rootPath).on('value', snapshot => {
+      const projects = snapshot.exists() ? Object.values(snapshot.val()) : [];
       this.setState({ projects, backupProjects: projects });
     });
   }

@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import HomeCard from './HomeCard';
+import LoadingNode from './LoadingNode';
 
 const HomeList = props => {
   const { projects } = props;
   function createRows() {
-    console.log(projects.length);
+    if (projects.length < 1) {
+      console.log('object');
+      return <LoadingNode />;
+    }
+
     let parent = [];
     for (let i = projects.length / 4; i > 0; i--) {
       let children = [];
       let startIndex = i * 4 - 1;
       for (let j = startIndex; j > startIndex - 4; j--) {
-        console.log(j);
         if (projects[j]) {
           children.push(
             <HomeCard

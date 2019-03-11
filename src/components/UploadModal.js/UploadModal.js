@@ -37,13 +37,18 @@ class UploadModal extends Component {
       .put(imgFile)
       .then(async () => {
         const img = await storageRef.child(`kimsclass/${id}`).getDownloadURL();
+        let updateOjbect = {};
         const newProject = {
           title: fullNameInput,
           period: parseInt(periodInput),
           link: linkInput,
           img
         };
-        await databaseRef.child(`kimsclass/${id}`).set(newProject);
+        updateOjbect[
+          `kimsclass-project1-period${periodInput}/${id}`
+        ] = newProject;
+        updateOjbect[`kimsclass-project1-all/${id}`] = newProject;
+        await databaseRef.update(updateOjbect);
         const model = document.querySelector('#modal1');
         const instance = M.Modal.getInstance(model);
         this.setState({

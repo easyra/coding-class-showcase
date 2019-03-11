@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
+import { databaseRef } from '../firebase';
 
-const SelectBar = ({ activePeriod, changePeriod }) => {
+const SelectBar = ({ activePeriod, changePeriod, changeProjectState }) => {
   const active = 'btn blue darken-3';
   const inactive = 'btn-flat blue-text text-darken-3';
-  function handleClick(e) {
-    const n = parseInt(e.target['name']);
-    console.log(e.target['name']);
+  function handleClick(e, n) {
+    //n = parseInt(e.target['name']);
     changePeriod(n);
+    const period = active;
+    const periodString = period === 0 ? 'all' : `period${period}`;
+    const project = 'project1';
+    const rootPath = `kimsclass-${project}-${periodString}`;
+    databaseRef.child(rootPath).on('value', snapshot => {
+      const projects = snapshot.exists()
+        ? Object.values(snapshot.val())
+        : false;
+      if (projects) {
+        changeProjectState(projects);
+      }
+    });
   }
   return (
     <>
@@ -15,8 +27,8 @@ const SelectBar = ({ activePeriod, changePeriod }) => {
           <ul className='center'>
             <li>
               <div
-                onClick={() => {
-                  changePeriod(0);
+                onClick={e => {
+                  handleClick(e, 0);
                 }}
                 name='0'
                 className={activePeriod === 0 ? active : inactive}
@@ -26,8 +38,8 @@ const SelectBar = ({ activePeriod, changePeriod }) => {
             </li>
             <li>
               <div
-                onClick={() => {
-                  changePeriod(1);
+                onClick={e => {
+                  handleClick(e, 1);
                 }}
                 name='1'
                 className={activePeriod === 1 ? active : inactive}
@@ -37,8 +49,8 @@ const SelectBar = ({ activePeriod, changePeriod }) => {
             </li>
             <li>
               <div
-                onClick={() => {
-                  changePeriod(2);
+                onClick={e => {
+                  handleClick(e, 2);
                 }}
                 name='2'
                 className={activePeriod === 2 ? active : inactive}
@@ -48,8 +60,8 @@ const SelectBar = ({ activePeriod, changePeriod }) => {
             </li>
             <li>
               <div
-                onClick={() => {
-                  changePeriod(3);
+                onClick={e => {
+                  handleClick(e, 3);
                 }}
                 name='3'
                 className={activePeriod === 3 ? active : inactive}
@@ -59,8 +71,8 @@ const SelectBar = ({ activePeriod, changePeriod }) => {
             </li>
             <li>
               <div
-                onClick={() => {
-                  changePeriod(4);
+                onClick={e => {
+                  handleClick(e, 4);
                 }}
                 name='4'
                 className={activePeriod === 4 ? active : inactive}
@@ -70,8 +82,8 @@ const SelectBar = ({ activePeriod, changePeriod }) => {
             </li>
             <li>
               <div
-                onClick={() => {
-                  changePeriod(5);
+                onClick={e => {
+                  handleClick(e, 5);
                 }}
                 name='5'
                 className={activePeriod === 5 ? active : inactive}
@@ -81,8 +93,8 @@ const SelectBar = ({ activePeriod, changePeriod }) => {
             </li>
             <li>
               <div
-                onClick={() => {
-                  changePeriod(6);
+                onClick={e => {
+                  handleClick(e, 6);
                 }}
                 name='6'
                 className={activePeriod === 6 ? active : inactive}
