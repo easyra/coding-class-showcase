@@ -14,7 +14,6 @@ const HomeList = props => {
         if (projects[j]) {
           children.push(
             <HomeCard
-              className='right'
               title={projects[j].title}
               img={projects[j].img}
               link={projects[j].link}
