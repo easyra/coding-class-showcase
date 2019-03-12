@@ -26,9 +26,7 @@ const HomeList = props => {
           );
         }
       }
-      parent.push(
-        <div className='row valign-wrapper container'>{children}</div>
-      );
+      parent.push(<div className='row container '>{children}</div>);
     }
     console.log(parent);
     return parent;

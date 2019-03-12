@@ -4,15 +4,23 @@ import Navigator from '../Navigator/Navigator';
 import UploadModal from '../UploadModal.js/UploadModal';
 import { databaseRef } from '../firebase';
 import SelectBar from '../Navigator/SelectBar';
+import { UploadModalOn } from '../Context';
 
 class HomeContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       projects: [],
+      uploadModalOn: true,
       activePeriod: 0
     };
   }
+  toggleUploadModal = () => {
+    this.setState(prev => {
+      return { uploadModalOn: !prev.uploadModalOn };
+    });
+  };
+
   changeProjectState = projects => {
     this.setState({ projects, backupProjects: projects });
   };
@@ -33,17 +41,20 @@ class HomeContainer extends Component {
     this.setState({ projects });
   };
   render() {
-    const { projects, activePeriod } = this.state;
+    const { projects, activePeriod, uploadModalOn } = this.state;
     return (
       <div>
-        <Navigator />
+        <Navigator
+          toggleUploadModal={this.toggleUploadModal}
+          uploadModalOn={this.uploadModalOn}
+        />
         <SelectBar
           changeProjectState={this.changeProjectState}
           activePeriod={activePeriod}
           changePeriod={this.changePeriod}
         />
         <HomeList projects={projects} />
-        <UploadModal addProject={this.addProject} />
+        {uploadModalOn && <UploadModal addProject={this.addProject} />}
       </div>
     );
   }

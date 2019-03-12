@@ -1,13 +1,8 @@
 import React from 'react';
-import M from 'materialize-css';
 
-const openModal = () => {
-  const model = document.querySelector('#modal1');
-  const instance = M.Modal.getInstance(model);
-  instance.isOpen ? instance.close() : instance.open();
-};
+import NavContent from './NavContent';
 
-const Navigator = props => {
+const Navigator = ({ toggleUploadModal, uploadModalOn }) => {
   return (
     <>
       <nav className='blue darken-3'>
@@ -15,13 +10,10 @@ const Navigator = props => {
           <a href='/' className='brand-logo '>
             Mr Kim's Class
           </a>
-          <ul className='right '>
-            <li>
-              <a href='#modal1' onClick={openModal}>
-                <i className='left material-icons'>file_upload</i>Upload
-              </a>
-            </li>
-          </ul>
+          <NavContent
+            toggleUploadModal={toggleUploadModal}
+            uploadModalOn={uploadModalOn}
+          />
         </div>
       </nav>
     </>
