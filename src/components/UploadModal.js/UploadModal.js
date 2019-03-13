@@ -3,6 +3,7 @@ import M from 'materialize-css';
 import { storageRef, databaseRef } from '../firebase';
 import styled from 'styled-components';
 import shortid from 'shortid';
+import LoadingNode from '../Home/LoadingNode';
 //import './inputColor.css';
 
 class UploadModal extends Component {
@@ -13,7 +14,8 @@ class UploadModal extends Component {
       periodInput: '',
       linkInput: '',
       imgInput: '',
-      imgFile: null
+      imgFile: null,
+      loading: false
     };
   }
   handleChange = e => {
@@ -29,6 +31,7 @@ class UploadModal extends Component {
   };
   handleSubmit = event => {
     const id = databaseRef.push().key;
+    this.setState({ loading: true });
     event.preventDefault();
     const { fullNameInput, periodInput, linkInput, imgFile } = this.state;
 
@@ -56,6 +59,7 @@ class UploadModal extends Component {
           periodInput: '',
           linkInput: '',
           imgInput: '',
+          loading: false,
           imgFile: null
         });
         instance.close();
@@ -64,6 +68,7 @@ class UploadModal extends Component {
   };
 
   render() {
+    const { loading } = this.state;
     return (
       <div id='modal1' class='modal'>
         <div class='modal-content'>
@@ -78,7 +83,7 @@ class UploadModal extends Component {
                   id='full_name'
                   placeholder='Enter Here'
                   type='text'
-                  className='validate'
+                  className='validate uploadmodal'
                 />
                 <label for='full_name'>Full Name</label>
               </div>
@@ -88,6 +93,7 @@ class UploadModal extends Component {
                   name='periodInput'
                   value={this.state.periodInput}
                   onChange={this.handleChange}
+                  className='uploadmodal'
                 >
                   <option value='' selected />
                   <option value='1'>Period 1</option>
@@ -108,7 +114,7 @@ class UploadModal extends Component {
                   id='project-link'
                   placeholder='Enter Here'
                   type='text'
-                  className='validate'
+                  className='uploadmodal validate'
                 />
                 <label for='project-link'>Project link</label>
               </div>
@@ -122,6 +128,7 @@ class UploadModal extends Component {
                     value={this.state.imgInput}
                     accept='.png,.jpg,.jpeg'
                     onChange={this.handleFiles}
+                    className='uploadmodal'
                   />
                 </div>
                 <div class='file-path-wrapper'>
@@ -129,12 +136,16 @@ class UploadModal extends Component {
                 </div>
               </div>
 
-              <div
-                className='btn right waves-effect blue darken-3'
-                onClick={this.handleSubmit}
-              >
-                Submit
-              </div>
+              {loading ? (
+                <LoadingNode />
+              ) : (
+                <div
+                  className='btn right waves-effect blue darken-3'
+                  onClick={this.handleSubmit}
+                >
+                  Submit
+                </div>
+              )}
               {/* <input
                   type='submit'
                   value='Submit'

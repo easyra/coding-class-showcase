@@ -12,9 +12,19 @@ class HomeContainer extends Component {
     this.state = {
       projects: [],
       uploadModalOn: true,
+      listLoading: true,
       activePeriod: 0
     };
   }
+
+  changeHomeContainerState = object => {
+    this.setState(object);
+  };
+
+  changeListLoadingState = bool => {
+    this.setState({ listLoading: bool });
+  };
+
   toggleUploadModal = () => {
     this.setState(prev => {
       return { uploadModalOn: !prev.uploadModalOn };
@@ -41,7 +51,7 @@ class HomeContainer extends Component {
     this.setState({ projects });
   };
   render() {
-    const { projects, activePeriod, uploadModalOn } = this.state;
+    const { projects, activePeriod, uploadModalOn, listLoading } = this.state;
     return (
       <div>
         <Navigator
@@ -52,8 +62,9 @@ class HomeContainer extends Component {
           changeProjectState={this.changeProjectState}
           activePeriod={activePeriod}
           changePeriod={this.changePeriod}
+          changeListLoadingState={this.changeListLoadingState}
         />
-        <HomeList projects={projects} />
+        <HomeList projects={projects} listLoading={listLoading} />
         {uploadModalOn && <UploadModal addProject={this.addProject} />}
       </div>
     );
@@ -65,7 +76,7 @@ class HomeContainer extends Component {
     const rootPath = `kimsclass-${project}-${periodString}`;
     databaseRef.child(rootPath).on('value', snapshot => {
       const projects = snapshot.exists() ? Object.values(snapshot.val()) : [];
-      this.setState({ projects, backupProjects: projects });
+      this.setState({ projects, backupProjects: projects, listLoading: false });
     });
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import { databaseRef } from '../firebase';
 import NavProjectTitle from './NavProjectTitle';
@@ -20,7 +21,7 @@ class NavContent extends Component {
           <NavProjectTitle title={title} />
         ))}
         <li>
-          <a href='#modal1' onClick={this.openModal}>
+          <a onClick={this.openModal}>
             <i className='left material-icons'>file_upload</i>Upload
           </a>
         </li>

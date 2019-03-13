@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { databaseRef } from '../firebase';
 
-const SelectBar = ({ activePeriod, changePeriod, changeProjectState }) => {
+const SelectBar = ({
+  activePeriod,
+  changePeriod,
+  changeProjectState,
+  changeListLoadingState
+}) => {
   const active = 'btn blue darken-3';
   const inactive = 'btn-flat blue-text text-darken-3';
   function handleClick(e, n) {
     //n = parseInt(e.target['name']);
     changePeriod(n);
+    changeListLoadingState(true);
     const period = active;
     const periodString = period === 0 ? 'all' : `period${period}`;
     const project = 'project1';
@@ -19,6 +25,7 @@ const SelectBar = ({ activePeriod, changePeriod, changeProjectState }) => {
         changeProjectState(projects);
       }
     });
+    changeListLoadingState(false);
   }
   return (
     <>

@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import HomeCard from './HomeCard';
 import LoadingNode from './LoadingNode';
 
-const HomeList = props => {
-  const { projects } = props;
-  function createRows() {
-    if (projects.length < 1) {
+const HomeList = ({ projects, listLoading }) => {
+  function createRows(listLoading) {
+    if (listLoading) {
       console.log('object');
       return <LoadingNode />;
+    }
+    if (projects.length < 1) {
+      return <h1 className='gray-text center'>No Projects :)</h1>;
     }
 
     let parent = [];
@@ -31,7 +33,7 @@ const HomeList = props => {
     console.log(parent);
     return parent;
   }
-  return <>{createRows()}</>;
+  return <>{createRows(listLoading)}</>;
 };
 
 export default HomeList;
