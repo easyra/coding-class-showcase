@@ -1,9 +1,12 @@
 import React from 'react';
 
-const NavProjectTitle = ({ title }) => {
+const NavProjectTitle = ({ title, id, changeProjectsDisplayed }) => {
+  const handleClick = () => {
+    changeProjectsDisplayed('default', id, false);
+  };
   return (
     <li>
-      <a>{title}</a>
+      <a onClick={handleClick}>{title}</a>
     </li>
   );
 };

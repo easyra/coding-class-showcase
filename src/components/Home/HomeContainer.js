@@ -13,7 +13,8 @@ class HomeContainer extends Component {
       projects: [],
       uploadModalOn: true,
       listLoading: true,
-      activePeriod: 0
+      activePeriod: 0,
+      activeProject: 0
     };
   }
 
@@ -50,35 +51,67 @@ class HomeContainer extends Component {
     projects.push(newProject);
     this.setState({ projects });
   };
+  changeProjectsDisplayed = (periodIndex, projectIndex, notMounting) => {
+    if (notMounting) {
+      this.setState({ listLoading: true });
+    }
+    if (periodIndex === 'default') {
+      periodIndex = this.state.activePeriod;
+    }
+    if (projectIndex === 'default') {
+      projectIndex = this.state.activeProject;
+    }
+    console.log(periodIndex);
+    console.log(projectIndex);
+
+    databaseRef.on('value', snapshot => {
+      const periodString = periodIndex === 0 ? 'all' : `period${periodIndex}`;
+      const projectTitle = Object.keys(
+        snapshot.child('kimsclass-projecttitles').val()
+      )[projectIndex];
+      const projectPath = snapshot.child(
+        `kimsclass-${projectTitle}-${periodString}`
+      );
+      const projects = projectPath.exists()
+        ? Object.values(projectPath.val())
+        : [];
+      this.setState({
+        projects,
+        backupProjects: projects,
+        listLoading: false,
+        activePeriod: periodIndex,
+        activeProject: projectIndex
+      });
+    });
+  };
   render() {
-    const { projects, activePeriod, uploadModalOn, listLoading } = this.state;
+    const {
+      projects,
+      activePeriod,
+      activeProject,
+      uploadModalOn,
+      listLoading
+    } = this.state;
     return (
       <div>
         <Navigator
           toggleUploadModal={this.toggleUploadModal}
           uploadModalOn={this.uploadModalOn}
+          changeProjectsDisplayed={this.changeProjectsDisplayed}
         />
         <SelectBar
-          changeProjectState={this.changeProjectState}
+          changeProjectsDisplayed={this.changeProjectsDisplayed}
           activePeriod={activePeriod}
-          changePeriod={this.changePeriod}
-          changeListLoadingState={this.changeListLoadingState}
         />
         <HomeList projects={projects} listLoading={listLoading} />
         {uploadModalOn && <UploadModal addProject={this.addProject} />}
       </div>
     );
   }
-  componentDidMount() {
-    const period = this.state.activePeriod;
-    const periodString = period === 0 ? 'all' : `period${period}`;
-    const project = 'project1';
-    const rootPath = `kimsclass-${project}-${periodString}`;
-    databaseRef.child(rootPath).on('value', snapshot => {
-      const projects = snapshot.exists() ? Object.values(snapshot.val()) : [];
-      this.setState({ projects, backupProjects: projects, listLoading: false });
-    });
-  }
+  componentDidMount = () => {
+    const { activeProject, activePeriod } = this.state;
+    this.changeProjectsDisplayed(activePeriod, activeProject, false);
+  };
 }
 
 export default HomeContainer;

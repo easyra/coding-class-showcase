@@ -1,31 +1,11 @@
 import React, { Component } from 'react';
 import { databaseRef } from '../firebase';
 
-const SelectBar = ({
-  activePeriod,
-  changePeriod,
-  changeProjectState,
-  changeListLoadingState
-}) => {
+const SelectBar = ({ activePeriod, changeProjectsDisplayed }) => {
   const active = 'btn blue darken-3';
   const inactive = 'btn-flat blue-text text-darken-3';
-  function handleClick(e, n) {
-    //n = parseInt(e.target['name']);
-    changePeriod(n);
-    changeListLoadingState(true);
-    const period = active;
-    const periodString = period === 0 ? 'all' : `period${period}`;
-    const project = 'project1';
-    const rootPath = `kimsclass-${project}-${periodString}`;
-    databaseRef.child(rootPath).on('value', snapshot => {
-      const projects = snapshot.exists()
-        ? Object.values(snapshot.val())
-        : false;
-      if (projects) {
-        changeProjectState(projects);
-      }
-    });
-    changeListLoadingState(false);
+  function handleClick(e) {
+    changeProjectsDisplayed(parseInt(e.target.name), 'default', true);
   }
   return (
     <>
@@ -33,81 +13,67 @@ const SelectBar = ({
         <div className='nav-wrapper container'>
           <ul className='center'>
             <li>
-              <div
-                onClick={e => {
-                  handleClick(e, 0);
-                }}
+              <input
+                type='button'
+                value='All'
+                onClick={handleClick}
                 name='0'
                 className={activePeriod === 0 ? active : inactive}
-              >
-                All
-              </div>
+              />
             </li>
             <li>
-              <div
-                onClick={e => {
-                  handleClick(e, 1);
-                }}
+              <input
+                type='button'
+                value='Period 1'
+                onClick={handleClick}
                 name='1'
                 className={activePeriod === 1 ? active : inactive}
-              >
-                Period 1
-              </div>
+              />
             </li>
             <li>
-              <div
-                onClick={e => {
-                  handleClick(e, 2);
-                }}
+              <input
+                type='button'
+                value='Period 2'
+                onClick={handleClick}
                 name='2'
                 className={activePeriod === 2 ? active : inactive}
-              >
-                Period 2
-              </div>
+              />
             </li>
             <li>
-              <div
-                onClick={e => {
-                  handleClick(e, 3);
-                }}
+              <input
+                type='button'
+                value='Period 3'
+                onClick={handleClick}
                 name='3'
                 className={activePeriod === 3 ? active : inactive}
-              >
-                Period 3
-              </div>
+              />
             </li>
             <li>
-              <div
-                onClick={e => {
-                  handleClick(e, 4);
-                }}
+              <input
+                type='button'
+                value='Period 4'
+                onClick={handleClick}
                 name='4'
                 className={activePeriod === 4 ? active : inactive}
-              >
-                Period 4
-              </div>
+              />
             </li>
             <li>
-              <div
-                onClick={e => {
-                  handleClick(e, 5);
-                }}
+              <input
+                type='button'
+                value='Period 5'
+                onClick={handleClick}
                 name='5'
                 className={activePeriod === 5 ? active : inactive}
-              >
-                Period 5
-              </div>
+              />
             </li>
             <li>
-              <div
-                onClick={e => {
-                  handleClick(e, 6);
-                }}
+              <input
+                type='button'
+                value='Period 6'
+                onClick={handleClick}
                 name='6'
                 className={activePeriod === 6 ? active : inactive}
-              >
-                Period 6
-              </div>
+              />
             </li>
           </ul>
         </div>

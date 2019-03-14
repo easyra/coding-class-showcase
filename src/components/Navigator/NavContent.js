@@ -17,8 +17,13 @@ class NavContent extends Component {
   render() {
     return (
       <ul className='right'>
-        {this.state.projectTitles.map(title => (
-          <NavProjectTitle title={title} />
+        {this.state.projectTitles.map((title, i) => (
+          <NavProjectTitle
+            key={i}
+            id={i}
+            title={title}
+            changeProjectsDisplayed={this.props.changeProjectsDisplayed}
+          />
         ))}
         <li>
           <a onClick={this.openModal}>
