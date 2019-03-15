@@ -5,16 +5,18 @@ import UploadModal from '../UploadModal.js/UploadModal';
 import { databaseRef } from '../firebase';
 import SelectBar from '../Navigator/SelectBar';
 import { UploadModalOn } from '../Context';
+import M from 'materialize-css';
 
 class HomeContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       projects: [],
-      uploadModalOn: true,
+      uploadModalOn: false,
       listLoading: true,
       activePeriod: 0,
-      activeProject: 0
+      activeProject: 0,
+      projectTitles: []
     };
   }
 
@@ -61,27 +63,32 @@ class HomeContainer extends Component {
     if (projectIndex === 'default') {
       projectIndex = this.state.activeProject;
     }
-    console.log(periodIndex);
-    console.log(projectIndex);
 
     databaseRef.on('value', snapshot => {
       const periodString = periodIndex === 0 ? 'all' : `period${periodIndex}`;
-      const projectTitle = Object.keys(
+      const projectTitles = Object.keys(
         snapshot.child('kimsclass-projecttitles').val()
-      )[projectIndex];
+      );
+      const projectTitle = projectTitles[projectIndex];
       const projectPath = snapshot.child(
         `kimsclass-${projectTitle}-${periodString}`
       );
       const projects = projectPath.exists()
         ? Object.values(projectPath.val())
         : [];
-      this.setState({
+      const newState = {
         projects,
         backupProjects: projects,
         listLoading: false,
         activePeriod: periodIndex,
         activeProject: projectIndex
-      });
+      };
+      if (!notMounting) {
+        newState.projectTitles = projectTitles;
+        newState.uploadModalOn = true;
+      }
+      this.setState(newState);
+      M.AutoInit();
     });
   };
   render() {
@@ -90,6 +97,7 @@ class HomeContainer extends Component {
       activePeriod,
       activeProject,
       uploadModalOn,
+      projectTitles,
       listLoading
     } = this.state;
     return (
@@ -101,10 +109,17 @@ class HomeContainer extends Component {
         />
         <SelectBar
           changeProjectsDisplayed={this.changeProjectsDisplayed}
+          projectTitle={projectTitles[activeProject]}
           activePeriod={activePeriod}
         />
         <HomeList projects={projects} listLoading={listLoading} />
-        {uploadModalOn && <UploadModal addProject={this.addProject} />}
+        {uploadModalOn && (
+          <UploadModal
+            addProject={this.addProject}
+            projectTitles={projectTitles}
+            listLoading={listLoading}
+          />
+        )}
       </div>
     );
   }

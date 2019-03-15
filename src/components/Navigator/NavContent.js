@@ -16,21 +16,31 @@ class NavContent extends Component {
   };
   render() {
     return (
-      <ul className='right'>
-        {this.state.projectTitles.map((title, i) => (
-          <NavProjectTitle
-            key={i}
-            id={i}
-            title={title}
-            changeProjectsDisplayed={this.props.changeProjectsDisplayed}
-          />
-        ))}
-        <li>
-          <a onClick={this.openModal}>
-            <i className='left material-icons'>file_upload</i>Upload
-          </a>
-        </li>
-      </ul>
+      <>
+        <ul id='dropdown1' class='dropdown-content'>
+          {this.state.projectTitles.map((title, i) => (
+            <NavProjectTitle
+              key={i}
+              id={i}
+              title={title}
+              changeProjectsDisplayed={this.props.changeProjectsDisplayed}
+            />
+          ))}
+        </ul>
+        <ul className='right'>
+          <li>
+            <a class='dropdown-trigger' href='#!' data-target='dropdown1'>
+              Projects<i class='material-icons right'>arrow_drop_down</i>
+            </a>
+          </li>
+
+          <li>
+            <a onClick={this.openModal}>
+              <i className='left material-icons'>file_upload</i>Upload
+            </a>
+          </li>
+        </ul>
+      </>
     );
   }
   componentDidMount() {

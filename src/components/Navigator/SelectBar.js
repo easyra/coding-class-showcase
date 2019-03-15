@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { databaseRef } from '../firebase';
 
-const SelectBar = ({ activePeriod, changeProjectsDisplayed }) => {
+const SelectBar = ({
+  activePeriod,
+  changeProjectsDisplayed,
+  projectTitle,
+  listLoading
+}) => {
   const active = 'btn blue darken-3';
   const inactive = 'btn-flat blue-text text-darken-3';
   function handleClick(e) {
@@ -76,6 +81,14 @@ const SelectBar = ({ activePeriod, changeProjectsDisplayed }) => {
               />
             </li>
           </ul>
+
+          {projectTitle && (
+            <ul>
+              <li className='right'>
+                <a className={active}>{projectTitle}</a>
+              </li>
+            </ul>
+          )}
         </div>
       </nav>
     </>

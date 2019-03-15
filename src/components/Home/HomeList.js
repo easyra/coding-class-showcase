@@ -24,6 +24,7 @@ const HomeList = ({ projects, listLoading }) => {
               img={projects[j].img}
               link={projects[j].link}
               period={projects[j].period}
+              projectTitle={projects[j].projectTitle}
             />
           );
         }

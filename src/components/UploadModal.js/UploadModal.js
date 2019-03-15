@@ -12,6 +12,7 @@ class UploadModal extends Component {
     this.state = {
       fullNameInput: '',
       periodInput: '',
+      projectInput: '',
       linkInput: '',
       imgInput: '',
       imgFile: null,
@@ -33,29 +34,37 @@ class UploadModal extends Component {
     const id = databaseRef.push().key;
     this.setState({ loading: true });
     event.preventDefault();
-    const { fullNameInput, periodInput, linkInput, imgFile } = this.state;
+    const {
+      fullNameInput,
+      periodInput,
+      linkInput,
+      imgFile,
+      projectInput
+    } = this.state;
 
     storageRef
       .child(`kimsclass/${id}`)
       .put(imgFile)
       .then(async () => {
         const img = await storageRef.child(`kimsclass/${id}`).getDownloadURL();
-        let updateOjbect = {};
+        let updateObject = {};
         const newProject = {
           title: fullNameInput,
           period: parseInt(periodInput),
           link: linkInput,
+          projectTitle: projectInput,
           img
         };
-        updateOjbect[
-          `kimsclass-project1-period${periodInput}/${id}`
+        updateObject[
+          `kimsclass-${projectInput}-period${periodInput}/${id}`
         ] = newProject;
-        updateOjbect[`kimsclass-project1-all/${id}`] = newProject;
-        await databaseRef.update(updateOjbect);
+        updateObject[`kimsclass-${projectInput}-all/${id}`] = newProject;
+        await databaseRef.update(updateObject);
         const model = document.querySelector('#modal1');
         const instance = M.Modal.getInstance(model);
         this.setState({
           fullNameInput: '',
+          projectInput: '',
           periodInput: '',
           linkInput: '',
           imgInput: '',
@@ -104,6 +113,21 @@ class UploadModal extends Component {
                   <option value='6'>Period 6</option>
                 </select>
                 <label>Period: </label>
+              </div>
+              {/* Projects */}
+              <div class='input-field col s12'>
+                <select
+                  name='projectInput'
+                  value={this.state.projectInput}
+                  onChange={this.handleChange}
+                  className='uploadmodal'
+                >
+                  <option value='' selected />
+                  {this.props.projectTitles.map(title => (
+                    <option value={title}>{title}</option>
+                  ))}
+                </select>
+                <label>Projects: </label>
               </div>
               {/* Animation Link */}
               <div className='input-field col s12'>
