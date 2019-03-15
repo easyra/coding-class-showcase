@@ -6,7 +6,9 @@ const NavProjectTitle = ({ title, id, changeProjectsDisplayed }) => {
   };
   return (
     <li>
-      <a onClick={handleClick}>{title}</a>
+      <a onClick={handleClick} className='blue-text'>
+        {title}
+      </a>
     </li>
   );
 };

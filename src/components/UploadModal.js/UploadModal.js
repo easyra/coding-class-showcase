@@ -105,12 +105,24 @@ class UploadModal extends Component {
                   className='uploadmodal'
                 >
                   <option value='' selected />
-                  <option value='1'>Period 1</option>
-                  <option value='2'>Period 2</option>
-                  <option value='3'>Period 3</option>
-                  <option value='4'>Period 4</option>
-                  <option value='5'>Period 5</option>
-                  <option value='6'>Period 6</option>
+                  <option className='blue-text' value='1'>
+                    Period 1
+                  </option>
+                  <option className='blue-text' value='2'>
+                    Period 2
+                  </option>
+                  <option className='blue-text' value='3'>
+                    Period 3
+                  </option>
+                  <option className='blue-text' value='4'>
+                    Period 4
+                  </option>
+                  <option className='blue-text' value='5'>
+                    Period 5
+                  </option>
+                  <option className='blue-text' value='6'>
+                    Period 6
+                  </option>
                 </select>
                 <label>Period: </label>
               </div>
@@ -124,7 +136,9 @@ class UploadModal extends Component {
                 >
                   <option value='' selected />
                   {this.props.projectTitles.map(title => (
-                    <option value={title}>{title}</option>
+                    <option className='blue-text' value={title}>
+                      {title}
+                    </option>
                   ))}
                 </select>
                 <label>Projects: </label>

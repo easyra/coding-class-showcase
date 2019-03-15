@@ -15,10 +15,11 @@ class NavContent extends Component {
     instance.isOpen ? instance.close() : instance.open();
   };
   render() {
+    const { projectTitles } = this.state;
     return (
       <>
-        <ul id='dropdown1' class='dropdown-content'>
-          {this.state.projectTitles.map((title, i) => (
+        <ul id='dropdown1' class='dropdown-content' disabled={!projectTitles}>
+          {projectTitles.map((title, i) => (
             <NavProjectTitle
               key={i}
               id={i}
