@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import HomeCard from './HomeCard';
 import LoadingNode from './LoadingNode';
 
-const HomeList = ({ projects, listLoading }) => {
+const HomeList = ({ projects, listLoading, activePeriod }) => {
   function createRows(listLoading) {
     if (listLoading) {
       console.log('object');
@@ -25,6 +25,7 @@ const HomeList = ({ projects, listLoading }) => {
               link={projects[j].link}
               period={projects[j].period}
               projectTitle={projects[j].projectTitle}
+              activePeriod={activePeriod}
             />
           );
         }

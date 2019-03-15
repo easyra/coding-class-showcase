@@ -112,7 +112,11 @@ class HomeContainer extends Component {
           projectTitle={projectTitles[activeProject]}
           activePeriod={activePeriod}
         />
-        <HomeList projects={projects} listLoading={listLoading} />
+        <HomeList
+          projects={projects}
+          listLoading={listLoading}
+          activePeriod={activePeriod}
+        />
         {uploadModalOn && (
           <UploadModal
             addProject={this.addProject}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class HomeCard extends Component {
   render() {
-    const { title, period, img, link, projectTitle } = this.props;
+    const { title, period, img, link, projectTitle, activePeriod } = this.props;
     return (
       <div className='col s12 m3 hoverable'>
         <div className='card'>
@@ -11,7 +11,8 @@ class HomeCard extends Component {
             <span className='card-title'>{projectTitle}</span>
           </div>
           <div className='card-content'>
-            <p>{`By ${title}`}</p>
+            <p>{title}</p>
+            {activePeriod === 0 && <p>Period {period}</p>}
           </div>
         </div>
       </div>
