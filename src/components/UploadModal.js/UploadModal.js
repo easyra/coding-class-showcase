@@ -87,8 +87,6 @@ class UploadModal extends Component {
         const instance = M.Modal.getInstance(model);
         this.setState({
           fullNameInput: '',
-          projectInput: '',
-          periodInput: '',
           linkInput: '',
           imgInput: '',
           loading: false,
