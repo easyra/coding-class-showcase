@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import M from 'materialize-css';
 import { storageRef, databaseRef } from '../firebase';
-import styled from 'styled-components';
-import shortid from 'shortid';
+import { withRouter } from 'react-router';
 import LoadingNode from '../Home/LoadingNode';
 //import './inputColor.css';
 
@@ -27,7 +26,6 @@ class UploadModal extends Component {
   };
   handleFiles = e => {
     const file = e.currentTarget.files[0];
-    console.log(file instanceof File);
     this.setState({ [e.currentTarget.name]: e.target.value, imgFile: file });
   };
   handleValidation = (fullName, period, link, imgFile, projectInput) => {
@@ -43,6 +41,7 @@ class UploadModal extends Component {
     return false;
   };
   handleSubmit = event => {
+    const { className } = this.props.match.params;
     const id = databaseRef.push().key;
     this.setState({ loading: true });
     event.preventDefault();
@@ -66,10 +65,12 @@ class UploadModal extends Component {
       return;
     }
     storageRef
-      .child(`kimsclass/${id}`)
+      .child(`${className}/${id}`)
       .put(imgFile)
       .then(async () => {
-        const img = await storageRef.child(`kimsclass/${id}`).getDownloadURL();
+        const img = await storageRef
+          .child(`${className}/${id}`)
+          .getDownloadURL();
         let updateObject = {};
         const newProject = {
           title: fullNameInput,
@@ -79,9 +80,9 @@ class UploadModal extends Component {
           img
         };
         updateObject[
-          `kimsclass-${projectInput}-period${periodInput}/${id}`
+          `${className}-${projectInput}-period${periodInput}/${id}`
         ] = newProject;
-        updateObject[`kimsclass-${projectInput}-all/${id}`] = newProject;
+        updateObject[`${className}-${projectInput}-all/${id}`] = newProject;
         await databaseRef.update(updateObject);
         const model = document.querySelector('#modal1');
         const instance = M.Modal.getInstance(model);
@@ -225,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('select');
-  var instances = M.FormSelect.init(elems, options);
+  M.FormSelect.init(elems, options);
 });
 
-export default UploadModal;
+export default withRouter(UploadModal);

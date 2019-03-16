@@ -1,18 +1,19 @@
 import React from 'react';
-
+import { withRouter } from 'react-router';
 import NavContent from './NavContent';
 
 const Navigator = ({
   toggleUploadModal,
   uploadModalOn,
-  changeProjectsDisplayed
+  changeProjectsDisplayed,
+  match
 }) => {
   return (
     <>
       <nav className='blue darken-3'>
         <div className='nav-wrapper container'>
           <a href='/' className='brand-logo '>
-            Mr Kim's Class
+            {match.params.className}
           </a>
           <NavContent
             changeProjectsDisplayed={changeProjectsDisplayed}
@@ -25,4 +26,4 @@ const Navigator = ({
   );
 };
 
-export default Navigator;
+export default withRouter(Navigator);

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { databaseRef } from '../firebase';
 import NavProjectTitle from './NavProjectTitle';
 import M from 'materialize-css';
@@ -45,7 +46,8 @@ class NavContent extends Component {
     );
   }
   componentDidMount() {
-    databaseRef.child('kimsclass-projecttitles').on('value', snapshot => {
+    const { className } = this.props.match.params;
+    databaseRef.child(`${className}-projecttitles`).on('value', snapshot => {
       const projectTitles = snapshot.val();
       if (projectTitles) {
         this.setState({ projectTitles: Object.keys(projectTitles) });
@@ -54,4 +56,4 @@ class NavContent extends Component {
   }
 }
 
-export default NavContent;
+export default withRouter(NavContent);

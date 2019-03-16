@@ -7,22 +7,19 @@ class HomeCard extends Component {
     window.location.href = `#/${link}`;
   };
   render() {
-    const {
-      title,
-      period,
-      img,
-      link,
-      projectTitle,
-      activePeriod,
-      history
-    } = this.props;
+    const { title, period, img, link, projectTitle, activePeriod } = this.props;
 
     return (
       <div className='col s12 m3 hoverable'>
-        <a target='_blank' href={link} className='black-text'>
+        <a
+          target='_blank'
+          href={link}
+          rel='noopener noreferrer'
+          className='black-text'
+        >
           <div className='card'>
             <div className='card-image'>
-              <img className='responsive-img' src={img} />
+              <img alt='Project' className='responsive-img' src={img} />
               <span className='card-title'>{projectTitle}</span>
             </div>
             <div className='card-content'>
@@ -36,4 +33,4 @@ class HomeCard extends Component {
   }
 }
 
-export default HomeCard;
+export default withRouter(HomeCard);

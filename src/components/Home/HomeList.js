@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import HomeCard from './HomeCard';
 import LoadingNode from './LoadingNode';
 
 const HomeList = ({ projects, listLoading, activePeriod }) => {
   function createRows(listLoading) {
     if (listLoading) {
-      console.log('object');
       return <LoadingNode />;
     }
     if (projects.length < 1) {
@@ -32,7 +31,6 @@ const HomeList = ({ projects, listLoading, activePeriod }) => {
       }
       parent.push(<div className='row container '>{children}</div>);
     }
-    console.log(parent);
     return parent;
   }
   return <>{createRows(listLoading)}</>;

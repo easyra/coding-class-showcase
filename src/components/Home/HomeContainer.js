@@ -4,7 +4,6 @@ import Navigator from '../Navigator/Navigator';
 import UploadModal from '../UploadModal.js/UploadModal';
 import { databaseRef } from '../firebase';
 import SelectBar from '../Navigator/SelectBar';
-import { UploadModalOn } from '../Context';
 import M from 'materialize-css';
 
 class HomeContainer extends Component {
@@ -54,6 +53,7 @@ class HomeContainer extends Component {
     this.setState({ projects });
   };
   changeProjectsDisplayed = (periodIndex, projectIndex, notMounting) => {
+    const { className } = this.props.match.params;
     if (notMounting) {
       this.setState({ listLoading: true });
     }
@@ -66,12 +66,15 @@ class HomeContainer extends Component {
 
     databaseRef.on('value', snapshot => {
       const periodString = periodIndex === 0 ? 'all' : `period${periodIndex}`;
-      const projectTitles = Object.keys(
-        snapshot.child('kimsclass-projecttitles').val()
+      const projectTitlesSnapshot = snapshot.child(
+        `${className}-projecttitles`
       );
+      const projectTitles = projectTitlesSnapshot.exists()
+        ? Object.keys(projectTitlesSnapshot.val())
+        : [];
       const projectTitle = projectTitles[projectIndex];
       const projectPath = snapshot.child(
-        `kimsclass-${projectTitle}-${periodString}`
+        `${className}-${projectTitle}-${periodString}`
       );
       const projects = projectPath.exists()
         ? Object.values(projectPath.val())
