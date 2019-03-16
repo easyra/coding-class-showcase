@@ -113,6 +113,7 @@ class HomeContainer extends Component {
           activePeriod={activePeriod}
         />
         <HomeList
+          {...this.props}
           projects={projects}
           listLoading={listLoading}
           activePeriod={activePeriod}

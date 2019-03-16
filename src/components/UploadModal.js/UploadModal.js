@@ -30,6 +30,18 @@ class UploadModal extends Component {
     console.log(file instanceof File);
     this.setState({ [e.currentTarget.name]: e.target.value, imgFile: file });
   };
+  handleValidation = (fullName, period, link, imgFile, projectInput) => {
+    if (!(fullName && period && imgFile && projectInput && link)) {
+      alert('All fields must be completed.');
+      return true;
+    }
+    const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+    if (!urlRegex.test(link)) {
+      alert('Link must start with an https:// or http://');
+      return true;
+    }
+    return false;
+  };
   handleSubmit = event => {
     const id = databaseRef.push().key;
     this.setState({ loading: true });
@@ -41,7 +53,18 @@ class UploadModal extends Component {
       imgFile,
       projectInput
     } = this.state;
-
+    if (
+      this.handleValidation(
+        fullNameInput,
+        periodInput,
+        linkInput,
+        imgFile,
+        projectInput
+      )
+    ) {
+      this.setState({ loading: false });
+      return;
+    }
     storageRef
       .child(`kimsclass/${id}`)
       .put(imgFile)
@@ -151,8 +174,8 @@ class UploadModal extends Component {
                   onChange={this.handleChange}
                   id='project-link'
                   placeholder='Enter Here'
-                  type='text'
-                  className='uploadmodal validate'
+                  type='url'
+                  className='uploadmodal'
                 />
                 <label for='project-link'>Project link</label>
               </div>
