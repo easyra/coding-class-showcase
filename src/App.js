@@ -10,6 +10,10 @@ class App extends Component {
           path='/:className'
           render={props => <HomeContainer {...props} />}
         />
+        <Route
+          path='/:className/admin'
+          render={props => <HomeContainer admin={true} {...props} />}
+        />
       </div>
     );
   }

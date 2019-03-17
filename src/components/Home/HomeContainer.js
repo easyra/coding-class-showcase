@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import HomeList from './HomeList';
 import Navigator from '../Navigator/Navigator';
 import UploadModal from '../UploadModal.js/UploadModal';
@@ -6,7 +6,7 @@ import { databaseRef } from '../firebase';
 import SelectBar from '../Navigator/SelectBar';
 import M from 'materialize-css';
 
-class HomeContainer extends Component {
+class HomeContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

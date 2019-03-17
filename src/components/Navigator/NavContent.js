@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router';
 import { databaseRef } from '../firebase';
 import NavProjectTitle from './NavProjectTitle';
 import M from 'materialize-css';
 
-class NavContent extends Component {
+class NavContent extends PureComponent {
   state = {
     projectTitles: []
   };
