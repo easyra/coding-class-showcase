@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bcrypt": "^3.0.5",
+    "bcryptjs": "^2.4.3",
     "firebase": "^5.8.6",
     "linaria": "^1.1.0",
     "materialize-css": "^1.0.0",
