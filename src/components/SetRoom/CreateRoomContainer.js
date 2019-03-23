@@ -11,16 +11,22 @@ class CreateRoomContainer extends Component {
     passwordInput: 'piehole',
     roomTitleInput: 'title',
     roomUrlInput: 'ezradavis',
+    urlExists: false,
     project1Input: 'Math memes',
     project2Input: 'project2',
     project3Input: '',
     loading: false
   };
-  handleChange = (name, value) => {
+  handleChange = async (name, value) => {
     if (name === 'roomIdInput') {
       const roomUrlInput = value.replace(/\s/g, '-').toLowerCase();
       const newState = { roomIdInput: value, roomUrlInput: roomUrlInput };
       this.setState(newState);
+      //Checks if URL exists in RealTime Database
+      const urlExists = (await databaseRef
+        .child(`rooms/${roomUrlInput}`)
+        .once('value')).exists();
+      this.setState({ urlExists });
     } else {
       this.setState({ [name]: value });
     }
@@ -38,9 +44,18 @@ class CreateRoomContainer extends Component {
 
     const projectTitles = [project1Input, project2Input, project3Input];
     this.setState({ loading: true });
-    databaseRef.on(
 
+    const urlExists = (await databaseRef
+      .child(`rooms/${roomUrlInput}`)
+      .once('value')).exists();
 
+    if (urlExists) {
+      this.setState({ loading: false });
+      alert('Url is already taken');
+      return;
+    }
+
+    //Stores room password as a hash
     const updateObject = {};
     updateObject[`rooms/${roomUrlInput}`] = await bcrypt.hash(
       passwordInput,
@@ -52,7 +67,6 @@ class CreateRoomContainer extends Component {
       }
     });
     updateObject[`${roomUrlInput}-info/title`] = roomTitleInput;
-    console.log(updateObject);
     databaseRef
       .update(updateObject)
       .then(() => {
@@ -157,6 +171,9 @@ class CreateRoomContainer extends Component {
       </div>
     );
   }
+  componentDidMount = () => {
+    databaseRef.on('value', () => {});
+  };
 }
 
 export default withRouter(CreateRoomContainer);
