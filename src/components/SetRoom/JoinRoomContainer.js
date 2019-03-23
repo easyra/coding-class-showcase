@@ -60,7 +60,7 @@ class JoinRoomContainer extends Component {
         </div>
         <a
           className={`waves-effect waves-light btn blue darken-3 ${
-            roomIdInput && passwordInput ? '' : 'disabled'
+            roomIdInput ? '' : 'disabled'
           }`}
           onClick={this.handleSubmit}
         >

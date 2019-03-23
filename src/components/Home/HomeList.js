@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeCard from './HomeCard';
-import LoadingNode from './LoadingNode';
+import LoadingNode from '../ReusableComponents/LoadingNode';
 
 const HomeList = ({ projects, listLoading, activePeriod }) => {
   function createRows(listLoading) {

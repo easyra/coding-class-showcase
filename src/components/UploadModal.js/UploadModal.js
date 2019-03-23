@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import M from 'materialize-css';
 import { storageRef, databaseRef } from '../firebase';
 import { withRouter } from 'react-router';
-import LoadingNode from '../Home/LoadingNode';
+import LoadingNode from '../ReusableComponents/LoadingNode';
 //import './inputColor.css';
 
 class UploadModal extends Component {
