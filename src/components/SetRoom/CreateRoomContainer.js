@@ -7,13 +7,13 @@ import LoadingNode from '../ReusableComponents/LoadingNode';
 
 class CreateRoomContainer extends Component {
   state = {
-    roomIdInput: 'ezradavis',
-    passwordInput: 'piehole',
-    roomTitleInput: 'title',
-    roomUrlInput: 'ezradavis',
+    roomIdInput: '',
+    passwordInput: '',
+    roomTitleInput: '',
+    roomUrlInput: '',
     urlExists: false,
-    project1Input: 'Math memes',
-    project2Input: 'project2',
+    project1Input: '',
+    project2Input: '',
     project3Input: '',
     loading: false
   };
@@ -55,12 +55,11 @@ class CreateRoomContainer extends Component {
       return;
     }
 
-    //Stores room password as a hash
+    //Stores room password as a hash if passwordInput has value
     const updateObject = {};
-    updateObject[`rooms/${roomUrlInput}`] = await bcrypt.hash(
-      passwordInput,
-      14
-    );
+    updateObject[`rooms/${roomUrlInput}`] = passwordInput
+      ? await bcrypt.hash(passwordInput, 14)
+      : false;
     projectTitles.forEach(title => {
       if (title) {
         updateObject[`${roomUrlInput}-projecttitles/${title}`] = true;
@@ -172,7 +171,7 @@ class CreateRoomContainer extends Component {
     );
   }
   componentDidMount = () => {
-    databaseRef.on('value', () => {});
+    databaseRef.child('rooms').on('value', () => {});
   };
 }
 

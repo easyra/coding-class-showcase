@@ -6,7 +6,7 @@ import CreateRoomContainer from './CreateRoomContainer';
 
 class SetRoomContainer extends Component {
   state = {
-    currentRoom: 2
+    currentRoom: 0
   };
   changeRoom = n => {
     this.setState({ currentRoom: n });
